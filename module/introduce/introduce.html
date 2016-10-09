@@ -1,0 +1,31 @@
+<div class = "sec_left">
+  <ul class = "site-nav">
+    <li ng-repeat = "val in tabTitle track by $index"><a href = "javascript:;" ng-class = "{active: judge[$index]}"  ng-click = "tab($index)">{{val}}</a></li>
+  </ul>
+</div><!--
+--><div class = "sec_right">
+  <div class = "tab-none" ng-class = "{visible:tabNum == 0}">
+    <hello temp-title = "title" temp-ls = "选择" ng-judge = "temp" my-click = "say(temp)"></hello>
+    <p>深入设置任务之前，需先安装gulp：</p>
+    <p>$ npm install gulp -g</p>
+    <p>这会将gulp安装到全域环境下，让你可以存取gulp的CLI。接著，需要在本地端的专案进行安装。cd到你的专案根目录，执行下列指令(请先确定你有package.json档案)：
+    </p>
+    <p>$ npm install gulp --save-dev</p>
+    <p>上述指令将gulp安装到本地端的专案内，并纪录于package.json内的devDependencies物件。</p>
+  </div>
+  <div class = "tab-none" ng-class = "{visible:tabNum == 1}">
+    <p>Bower是一个客户端技术的软件包管理器，它可用于搜索、安装和卸载如JavaScript、HTML、CSS之类的网络资源。</p>
+    <p>使用Bower会为你节省寻找客户端的依赖关系的时间。在没有使用bower之前每次需要安装jQuery的时候都需要去jQuery网站下载包或使用CDN版本。但是有了Bower，你只需要使用命令 bower install jquery –save，jquery 会动下载到当前目录下的bower_componets目录中了，你不需要去记版本号之类的东西，你也可以通过Bower的info命令去查看任意库的信息。</p>
+  </div>
+  <div class = "tab-none" ng-class = "{visible:tabNum == 2}">
+    <p>什么是LESSCSS</p>
+    <p>LESSCSS是一种动态样式语言，属于CSS预处理语言的一种，它使用类似CSS的语法，为CSS的赋予了动态语言的特性，如变量、继承、运算、函数等，更方便CSS的编写和维护。</p>
+    <p>LESSCSS可以在多种语言、环境中使用，包括浏览器端、桌面客户端、服务端。</p>
+  </div>
+  <div class = "tab-none" ng-class = "{visible:tabNum == 3}">
+    <p>angularJS利用自身集成的各个模块便可开发出功能齐全的web应用。其中AngularUI模块中的ui-路由(ui-router)功能强大。ui-router是一个web客户端的路由解决方案。该模块为开发者提供了很多最视图（view）额外的控制。开发者可以创建嵌套分层的视图、在同一个页面使用多个视图、让多个视图控制某个视图等更多的功能。即使是非常复杂的web应用，UI-Router也可以极佳地驾驭。当然本文章基于AngularJS 1.2。</p>
+  </div>
+  <div class = "tab-none" ng-class = "{visible: tabNum == 4}">
+    这是一个小型的angular程序，当你打开这个页面的时候程序已经开始运行！注意URL地址栏的变化。
+  </div>
+</div>

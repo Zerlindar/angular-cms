@@ -1,0 +1,150 @@
+﻿* {
+  font-family: "微软雅黑";
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+}
+a {
+  text-decoration: none;
+  color: #000;
+}
+ul, li, ol {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+header {
+  width: 900px;
+  margin: 20px auto 0;
+  height: 80px;
+  padding-top: 40px;
+  background: #CDDC39;
+  .site-title {
+    display: inline-block;
+    width: 40%;
+    h2 {
+      text-align: center;
+    }
+  }
+  nav {
+    display: inline-block;
+    width: 60%;
+    li {
+      display: inline-block;
+      width: 100px;
+      height: 20px;
+      line-height: 20px;
+      text-align: center;
+      font-size: 16px;
+      a {
+        display: block;
+        &.active {
+          color: #e15782;
+        }
+      }
+    }
+  }
+}
+.content-body {
+  width: 898px;
+  margin: 0 auto;
+  border: 1px solid #000;
+  border-top: none;
+  .sec_left {
+    vertical-align: top;
+    display: inline-block;
+    width: 22%;
+    height: 600px;
+    box-sizing: border-box;
+    padding: 50px 0 50px 36px;
+    border-right: 1px solid #000;
+    &.login {
+      width: 30%;
+    }
+    li{
+      padding: 15px 0;
+      font-size: 16px;
+      a{
+        display: block;
+        &.active {
+          color: #e15782;
+        }
+      }
+    }
+  }
+  .sec_right{
+    display: inline-block;
+    width: 78%;
+    height: 600px;
+    overflow: auto;
+    vertical-align: top;
+    &.login {
+      width: 70%;
+    }
+    p{
+      line-height: 1.8;
+    }
+    .tab-none{
+      display: none;
+      box-sizing: border-box;
+      padding: 30px 20px;
+      span {
+        padding: 2px 10px;
+        border-radius: 3px;
+      }
+      .active {
+        background: #40c4ff;
+      }
+    }
+    .visible{
+      display: block;
+    }
+    .feedBook{
+      padding: 20px;
+      .feedList{
+        li{
+          padding: 10px 0;
+          margin: 2px 0;
+          border: 1px dashed #aaaaaa;
+        }
+        p{
+          text-indent: 2em;
+        }
+        span{
+          display: inline-block;
+          vertical-align: top;
+        }
+        .delete{
+          width: 50px;
+          height: 25px;
+          margin-left: 20px;
+          line-height: 25px;
+          text-align: center;
+          color: #fff;
+          background-color: #c9302c;
+          border-color: #ac2925;
+          border-radius: 2px;
+        }
+      }
+      textarea{
+        width: 100%;
+      }
+      .button{
+        width: 84px;
+        height: 28px;
+        text-align: center;
+        font-size: 12px;
+        border: 1px solid #76923c;
+        background: #9bbb59;
+        color: #fff;
+      }
+    }
+  }
+  .pd{
+    padding: 50px 0 50px 36px;
+    box-sizing: border-box;
+  }
+
+}

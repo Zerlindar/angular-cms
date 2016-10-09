@@ -1,0 +1,149 @@
+* {
+  font-family: "微软雅黑";
+}
+body,
+html {
+  margin: 0;
+  padding: 0;
+}
+a {
+  text-decoration: none;
+  color: #000;
+}
+ul,
+li,
+ol {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+header {
+  width: 900px;
+  margin: 20px auto 0;
+  height: 80px;
+  padding-top: 40px;
+  background: #CDDC39;
+}
+header .site-title {
+  display: inline-block;
+  width: 40%;
+}
+header .site-title h2 {
+  text-align: center;
+}
+header nav {
+  display: inline-block;
+  width: 60%;
+}
+header nav li {
+  display: inline-block;
+  width: 100px;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  font-size: 16px;
+}
+header nav li a {
+  display: block;
+}
+header nav li a.active {
+  color: #e15782;
+}
+.content-body {
+  width: 898px;
+  margin: 0 auto;
+  border: 1px solid #000;
+  border-top: none;
+}
+.content-body .sec_left {
+  vertical-align: top;
+  display: inline-block;
+  width: 22%;
+  height: 600px;
+  box-sizing: border-box;
+  padding: 50px 0 50px 36px;
+  border-right: 1px solid #000;
+}
+.content-body .sec_left.login {
+  width: 30%;
+}
+.content-body .sec_left li {
+  padding: 15px 0;
+  font-size: 16px;
+}
+.content-body .sec_left li a {
+  display: block;
+}
+.content-body .sec_left li a.active {
+  color: #e15782;
+}
+.content-body .sec_right {
+  display: inline-block;
+  width: 78%;
+  height: 600px;
+  overflow: auto;
+  vertical-align: top;
+}
+.content-body .sec_right.login {
+  width: 70%;
+}
+.content-body .sec_right p {
+  line-height: 1.8;
+}
+.content-body .sec_right .tab-none {
+  display: none;
+  box-sizing: border-box;
+  padding: 30px 20px;
+}
+.content-body .sec_right .tab-none span {
+  padding: 2px 10px;
+  border-radius: 3px;
+}
+.content-body .sec_right .tab-none .active {
+  background: #40c4ff;
+}
+.content-body .sec_right .visible {
+  display: block;
+}
+.content-body .sec_right .feedBook {
+  padding: 20px;
+}
+.content-body .sec_right .feedBook .feedList li {
+  padding: 10px 0;
+  margin: 2px 0;
+  border: 1px dashed #aaaaaa;
+}
+.content-body .sec_right .feedBook .feedList p {
+  text-indent: 2em;
+}
+.content-body .sec_right .feedBook .feedList span {
+  display: inline-block;
+  vertical-align: top;
+}
+.content-body .sec_right .feedBook .feedList .delete {
+  width: 50px;
+  height: 25px;
+  margin-left: 20px;
+  line-height: 25px;
+  text-align: center;
+  color: #fff;
+  background-color: #c9302c;
+  border-color: #ac2925;
+  border-radius: 2px;
+}
+.content-body .sec_right .feedBook textarea {
+  width: 100%;
+}
+.content-body .sec_right .feedBook .button {
+  width: 84px;
+  height: 28px;
+  text-align: center;
+  font-size: 12px;
+  border: 1px solid #76923c;
+  background: #9bbb59;
+  color: #fff;
+}
+.content-body .pd {
+  padding: 50px 0 50px 36px;
+  box-sizing: border-box;
+}
