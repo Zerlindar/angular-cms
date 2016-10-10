@@ -405,6 +405,6 @@ function test(){
 //  age: 12
 //}
 //var c = Object.create(ccccc);
-//c.sex = "man"
+c.sex = "man"
 //console.log(c.hasOwnProperty("sex"))
 
