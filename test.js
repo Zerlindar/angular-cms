@@ -400,10 +400,10 @@ function test(){
 }
 
 //console.log(new test().x);
-//var ccccc = {
-//  name: "tom",
-//  age: 12
-//}
+var ccccc = {
+  name: "tom",
+  age: 12
+}
 //var c = Object.create(ccccc);
 c.sex = "man"
 //console.log(c.hasOwnProperty("sex"))
