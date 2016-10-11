@@ -5,3 +5,4 @@
 <p>其中简单地封装了一些简单的功能，$http跟cookie...至于其他大概没有什么可以再细说的了。</p>
 <p>至于搭建整个项目也是超级easy，比方说使用gulp进行自动化构建，css预处理用的是less，大致这么些吧，文件都是已经编译好的可以运行了。</p>
 ##come on.
+<a href = "ilovecc.ren/angular-cms/index.html">点此查看在线演示</a>
