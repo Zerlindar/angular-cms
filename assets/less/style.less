@@ -1,10 +1,17 @@
 ﻿* {
   font-family: "微软雅黑";
 }
-
+@nav-height: 55px;
+.clearfix{
+  content: "";
+  clear: both;
+  height: 0;
+  visibility: hidden;
+}
 body, html {
   margin: 0;
   padding: 0;
+  height: 100%;
 }
 a {
   text-decoration: none;
@@ -15,136 +22,153 @@ ul, li, ol {
   margin: 0;
   list-style: none;
 }
-header {
-  width: 900px;
-  margin: 20px auto 0;
-  height: 80px;
-  padding-top: 40px;
-  background: #CDDC39;
-  .site-title {
-    display: inline-block;
-    width: 40%;
-    h2 {
-      text-align: center;
-    }
-  }
-  nav {
-    display: inline-block;
-    width: 60%;
-    li {
-      display: inline-block;
-      width: 100px;
-      height: 20px;
-      line-height: 20px;
-      text-align: center;
-      font-size: 16px;
-      a {
-        display: block;
-        &.active {
-          color: #e15782;
-        }
-      }
-    }
-  }
-}
 .content-body {
-  width: 898px;
-  margin: 0 auto;
-  border: 1px solid #000;
-  border-top: none;
-  .sec_left {
-    vertical-align: top;
-    display: inline-block;
-    width: 22%;
-    height: 600px;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  .navbar{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: @nav-height;
+    width: 100%;
     box-sizing: border-box;
-    padding: 50px 0 50px 36px;
-    border-right: 1px solid #000;
-    &.login {
-      width: 30%;
-    }
-    li{
-      padding: 15px 0;
-      font-size: 16px;
-      a{
-        display: block;
-        &.active {
-          color: #e15782;
-        }
+    text-align: right;
+    border-bottom: 1px solid #8c8c8c;
+    background: #f9f9f9;
+    font-size: 14px;
+    .pull-right{
+      height: @nav-height;
+      line-height: @nav-height;
+      float: right;
+      padding-right: 20px;
+      .logout{
+        font-size: 14px;
       }
     }
   }
-  .sec_right{
-    display: inline-block;
-    width: 78%;
-    height: 600px;
-    overflow: auto;
-    vertical-align: top;
-    &.login {
-      width: 70%;
-    }
-    p{
-      line-height: 1.8;
-    }
-    .tab-none{
-      display: none;
-      box-sizing: border-box;
-      padding: 30px 20px;
-      span {
-        padding: 2px 10px;
-        border-radius: 3px;
-      }
-      .active {
-        background: #40c4ff;
-      }
-    }
-    .visible{
-      display: block;
-    }
-    .feedBook{
-      padding: 20px;
-      .feedList{
-        li{
-          padding: 10px 0;
-          margin: 2px 0;
-          border: 1px dashed #aaaaaa;
-        }
-        p{
-          text-indent: 2em;
-        }
-        span{
-          display: inline-block;
-          vertical-align: top;
-        }
-        .delete{
-          width: 50px;
-          height: 25px;
-          margin-left: 20px;
-          line-height: 25px;
-          text-align: center;
-          color: #fff;
-          background-color: #c9302c;
-          border-color: #ac2925;
-          border-radius: 2px;
-        }
-      }
-      textarea{
-        width: 100%;
-      }
-      .button{
-        width: 84px;
-        height: 28px;
-        text-align: center;
-        font-size: 12px;
-        border: 1px solid #76923c;
-        background: #9bbb59;
+  .login{
+    width: 500px;
+    height: 340px;
+    margin: 17% auto auto 50%;
+    padding: 110px;
+    box-sizing: border-box;
+    background: #eee;
+    .submit{
+      margin-top: 10px;
+      input{
+        background: #4cae4c;
+        border: 1px solid #00bfa5;
         color: #fff;
       }
     }
   }
-  .pd{
-    padding: 50px 0 50px 36px;
-    box-sizing: border-box;
+  .main-content{
+    height: 100%;
+    .left-module {
+      vertical-align: top;
+      display: inline-block;
+      width: 22%;
+      height: 100%;
+      overflow: auto;
+      box-sizing: border-box;
+      padding: @nav-height 0 20px 20px;
+      border-right: 1px solid #000;
+      .menu-box{
+        nav{
+          a{
+            height: 30px;
+            line-height: 30px;
+            display: block;
+            background: #fff;
+            &.active {
+              background: #e15782;
+              color: #fff;
+            }
+          }
+          .menu-first{
+            padding-top: 4px;
+          }
+          .menu-second {
+            border-bottom: 1px solid #EBDFDF;
+            a{
+              padding-left: 6px;
+            }
+          }
+        }
+      }
+    }
+    .right-module{
+      display: inline-block;
+      width: 78%;
+      height: 100%;
+      overflow: auto;
+      vertical-align: top;
+      box-sizing: border-box;
+      padding: @nav-height 0 20px 20px;
+      &.login {
+        width: 70%;
+      }
+      p{
+        line-height: 1.8;
+      }
+      .tab-none{
+        display: none;
+        box-sizing: border-box;
+        padding: 30px 20px;
+        span {
+          padding: 2px 10px;
+          border-radius: 3px;
+        }
+        .active {
+          background: #40c4ff;
+        }
+      }
+      .visible{
+        display: block;
+      }
+      .feedBook{
+        padding: 20px;
+        .feedList{
+          li{
+            padding: 10px 0;
+            margin: 2px 0;
+            border: 1px dashed #aaaaaa;
+          }
+          p{
+            text-indent: 2em;
+          }
+          span{
+            display: inline-block;
+            vertical-align: top;
+          }
+          .delete{
+            width: 50px;
+            height: 25px;
+            margin-left: 20px;
+            line-height: 25px;
+            text-align: center;
+            color: #fff;
+            background-color: #c9302c;
+            border-color: #ac2925;
+            border-radius: 2px;
+          }
+        }
+        textarea{
+          width: 100%;
+        }
+        .button{
+          width: 84px;
+          height: 28px;
+          text-align: center;
+          font-size: 12px;
+          border: 1px solid #76923c;
+          background: #9bbb59;
+          color: #fff;
+        }
+      }
+    }
   }
 
 }
