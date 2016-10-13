@@ -2,12 +2,13 @@
  * Created by Administrator on 2016/8/30.
  */
 app.controller("branchController", function($scope, alertify, myHttp){
-  var list = {
-    currentPage: 1,
-    limit: 10
+  $scope.title = ["全部", "大胖", "二胖", "三胖", "四胖"];
+  $scope.temp = 0;
+  $scope.say = function(index){
+    console.dir(index);
   }
-  myHttp("GET", "stock/goods", list).then(function(data){
-    $scope.listData = data.data;
-    console.log("goods", data);
-  })
-})
+});
+app.controller("launchController", function($scope, alertify, myHttp){
+  $scope.listData = "launchController";
+});
+

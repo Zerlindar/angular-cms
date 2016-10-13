@@ -35,26 +35,12 @@ app.config(["$stateProvider", "$urlRouterProvider", function ($stateProvider, $u
       templateUrl: './module/branch/branch.html',
       controller: 'branchController',
     })
-    .state('introduce', {
-      url: '/introduce',
-      templateUrl: './module/introduce/introduce.html',
-      controller: 'introduceController',
-    })
-    .state('feed', {
-      url: '/feed',
-      templateUrl: './module/feed/feed.html',
-      controller: 'feedController',
+    .state('admin.launch', {
+      url: '/launch',
+      templateUrl: './module/branch/launch.html',
+      controller: 'launchController',
     })
 
-    .state('feed.page1', {
-      url: '/shotCut',
-      templateUrl: './module/feed/shot.html',
-    })
-    .state('feed.page2', {
-      url: '/test',
-      templateUrl: './module/feed/test.html',
-      controller: 'testController'
-    })
 }])
 
 /**
@@ -76,7 +62,7 @@ app.directive("hello", function(){
         scope.myClick();
       }
     },
-    template: "<div>{{tempLs}}<span ng-class='{active: ngJudge == $index}' ng-repeat='val in tempTitle track by $index' ng-click = 'sayHello($index)'>{{val}}</span></div>",
+    template: "<div class = 'tab'>{{tempLs}}<span ng-class='{active: ngJudge == $index}' ng-repeat='val in tempTitle track by $index' ng-click = 'sayHello($index)'>{{val}}</span></div>",
   }
 })
 
@@ -225,65 +211,24 @@ app.service('myHttp', ["$q", "$http", "apiUrl", "$state", "alertify", "myCookie"
 /**
  * Created by Administrator on 2016/8/30.
  */
-app.controller("branchController", ["$scope", "alertify", "myHttp", function($scope, alertify, myHttp){
-  var list = {
-    currentPage: 1,
-    limit: 10
-  }
-  myHttp("GET", "stock/goods", list).then(function(data){
-    $scope.listData = data.data;
-    console.log("goods", data);
-  })
-}])
-
-/**
- * Created by Administrator on 2016/9/8.
- */
-app.controller("testController", ["$scope", "alertify", function($scope, alertify){
-  $scope.feedText = []
-  for(var i = 0; i < localStorage.length; i ++){
-    if(localStorage[i]){
-      $scope.feedText.push(localStorage[i])
-    }
-  }
-  $scope.delete = function(index){
-    alertify.confirm("确认删除该条留言吗？", function(){
-      $scope.feedText.splice(index, 1);
-      localStorage.clear()
-      for(var i = 0; i < $scope.feedText.length; i ++){
-        localStorage.setItem(i, $scope.feedText[i]);
-      }
-      $scope.$apply();
-    })
-  }
-  $scope.submit = function(){
-    if($scope.talks !=""){
-      localStorage.setItem($scope.feedText.length, $scope.talks);
-      $scope.feedText.push($scope.talks);
-      $scope.talks = "";
-    }
-  }
-}])
-app.factory("testApi", function(){
-  var obj = {};
-  obj.myLocal = {
-    savethestuffLocal: function(value, key) {
-      var i = key.length;
-      localStorage.setItem(key, value);
-    },
-    getthestuffLocal: function(key) {
-      var data = localStorage[key];
-      return data;
-    }
-  }
-  return obj;
-})
-
-/**
- * Created by Administrator on 2016/8/30.
- */
 app.controller("adminController", ["$scope", "alertify", "myHttp", "myCookie", "$state", function($scope, alertify, myHttp, myCookie, $state){
-  var role=JSON.parse(localStorage.getItem('roleInfo'));
+  var role = {
+    menuInfo: [
+      {
+        moduleName: "门店管理",
+        menu: [
+          {
+            menuName: "门店信息",
+            route: "admin.branch"
+          },
+          {
+            menuName: "区域管理",
+            route: "admin.launch"
+          }
+        ]
+      }
+    ]
+  };
   if(role){
     $scope.manageName=localStorage.getItem('name');
     $scope.menuData=role.menuInfo;
@@ -300,57 +245,46 @@ app.controller("adminController", ["$scope", "alertify", "myHttp", "myCookie", "
 /**
  * Created by Administrator on 2016/8/30.
  */
-app.controller("introduceController", ["$scope", "alertify", function($scope, alertify){
+app.controller("branchController", ["$scope", "alertify", "myHttp", function($scope, alertify, myHttp){
   $scope.title = ["全部", "大胖", "二胖", "三胖", "四胖"];
   $scope.temp = 0;
-  $scope.date = moment().format("YYYY年MM月DD日 hh:mm")
-  $scope.judge = [];
-  $scope.judge[0] = true;
-  $scope.tabNum = 0;
-  $scope.tabTitle = [
-    "gulp的使用",
-    "使用bower安装插件",
-    "使用less编译css",
-    "angular-ui-router简介",
-    "让一切运行起来吧"
-  ];
   $scope.say = function(index){
-    console.dir($scope.tabTitle);
+    console.dir(index);
   }
-  $scope.tab = function(index){
-    $scope.judge = [];
-    $scope.tabNum = index;
-    $scope.judge[index] = !$scope.judge[index];
-    console.log($scope.tabNum);
-  }
-  $scope.ale = function(){
-    alert("dddd");
-  }
-}])
+}]);
+app.controller("launchController", ["$scope", "alertify", "myHttp", function($scope, alertify, myHttp){
+  $scope.listData = "launchController";
+}]);
+
 
 /**
  * Created by Administrator on 2016/8/30.
  */
 app.controller("loginController", ["$scope", "alertify", "myHttp", "myCookie", "$state", function($scope, alertify, myHttp, myCookie, $state){
+  $scope.data = {};
   $scope.login = function(){
     //$scope.data.source = "MANAGE_WEB"
-    var data = {
-      password: "123456",
-      source: "MANAGE_WEB",
-      userName: "cjj"
-    };
-    myHttp("POST", "login", data).then(function(data){
-      console.log("login_data", data)
-      myCookie.setCookie('auth_token',data.token);
-      if(data.data.roleInfo && data.data.roleInfo.menuInfo && data.data.roleInfo.menuInfo[0]){
-        localStorage.setItem('roleInfo', JSON.stringify(data.data.roleInfo));
-        localStorage.setItem('name', data.data.name);
-        $state.go("admin.branch")
-        alertify.success('登陆成功');
-      }else{
-        alertify.error('本账户还未分配权限！')
-      }
-    });
+
+    if(!$scope.data.userName){
+      alertify.alert("输入用户名");
+    }else{
+      localStorage.setItem('name', $scope.data.userName);
+      $state.go("admin.branch");
+      alertify.success("登录成功");
+    }
+
+    //myHttp("POST", "login", data).then(function(data){
+    //  console.log("login_data", data)
+    //  myCookie.setCookie('auth_token',data.token);
+    //  if(data.data.roleInfo && data.data.roleInfo.menuInfo && data.data.roleInfo.menuInfo[0]){
+    //    localStorage.setItem('roleInfo', JSON.stringify(data.data.roleInfo));
+    //    localStorage.setItem('name', data.data.name);
+    //    $state.go("admin.branch")
+    //    alertify.success('登陆成功');
+    //  }else{
+    //    alertify.error('本账户还未分配权限！')
+    //  }
+    //});
 
   };
 

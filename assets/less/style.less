@@ -66,6 +66,8 @@ ul, li, ol {
   }
   .main-content{
     height: 100%;
+    padding-bottom: 60px;
+    box-sizing: border-box;
     .left-module {
       vertical-align: top;
       display: inline-block;
@@ -106,7 +108,8 @@ ul, li, ol {
       overflow: auto;
       vertical-align: top;
       box-sizing: border-box;
-      padding: @nav-height 0 20px 20px;
+      padding: @nav-height+20px 20px 20px 20px;
+
       &.login {
         width: 70%;
       }
@@ -170,5 +173,26 @@ ul, li, ol {
       }
     }
   }
+}
+.tab {
+  span{
+    padding: 3px 4px;
+    margin: 0 3px;
 
+  }
+  .active{
+    background: #9575cd;
+    color: #fff;
+    border-radius: 5px;
+  }
+}
+footer{
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  text-align: center;
+  height: 46px;
+  width: 100%;
+  line-height: 52px;
+  background: #e0e0e0;
 }

@@ -35,24 +35,10 @@ app.config(function ($stateProvider, $urlRouterProvider) {
       templateUrl: './module/branch/branch.html',
       controller: 'branchController',
     })
-    .state('introduce', {
-      url: '/introduce',
-      templateUrl: './module/introduce/introduce.html',
-      controller: 'introduceController',
-    })
-    .state('feed', {
-      url: '/feed',
-      templateUrl: './module/feed/feed.html',
-      controller: 'feedController',
+    .state('admin.launch', {
+      url: '/launch',
+      templateUrl: './module/branch/launch.html',
+      controller: 'launchController',
     })
 
-    .state('feed.page1', {
-      url: '/shotCut',
-      templateUrl: './module/feed/shot.html',
-    })
-    .state('feed.page2', {
-      url: '/test',
-      templateUrl: './module/feed/test.html',
-      controller: 'testController'
-    })
 })
