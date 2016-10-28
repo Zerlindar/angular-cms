@@ -41,7 +41,7 @@ function Person(name, sex) {
   this.name = name;
   this.sex = sex;
 }
- //定义Person的原型，原型中的属性可以被自定义对象引用
+ //定义Person的原型，原型中的属性可以被自定义对象引用33333
 Person.prototype = {
   getName: function() {
     return this.name;
