@@ -57,12 +57,15 @@ app.directive("hello", function(){
       myClick: "&"
     },
     link: function(scope, element, attrs){
-      scope.sayHello = function(index){
+      scope.setCheck = function(index){
         scope.ngJudge = index;
         scope.myClick();
       }
     },
-    template: "<div class = 'tab'>{{tempLs}}<span ng-class='{active: ngJudge == $index}' ng-repeat='val in tempTitle track by $index' ng-click = 'sayHello($index)'>{{val}}</span></div>",
+    template: "<div class = 'tab'>{{tempLs}}" +
+    "<span ng-class='{active: ngJudge == $index}' ng-repeat='val in tempTitle track by $index' " +
+    "ng-click = 'setCheck($index)'>{{val}}</span>" +
+    "</div>",
   }
 })
 
