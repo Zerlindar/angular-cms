@@ -398,13 +398,14 @@ function unEqual(arr){
 function test(){
   var x = 5;
 }
-
+console.log(typeof test);
 //console.log(new test().x);
 var ccccc = {
   name: "tom",
   age: 12
 }
 //var c = Object.create(ccccc);
-c.sex = "man"
+//c.sex = "man"
 //console.log(c.hasOwnProperty("sex"))
-
+var saray = ["", "", ""]
+console.log(!!saray);

@@ -1,6 +1,3 @@
-/**
- * Created by Administrator on 2016/8/31.
- */
 app.service('clone', function () {
   this.cloneObj = function (obj) {
     var o;
@@ -64,7 +61,7 @@ app.service("myCookie", function () {
       }
     }
 });
-app.service('myHttp', function ($q, $http, apiUrl, $state, alertify, myCookie) {
+app.service('myHttp', ["$q", "$http", "apiUrl", "$state", "alertify", "myCookie", function ($q, $http, apiUrl, $state, alertify, myCookie) {
   function objInit(data) {
     var obj = {};
     angular.forEach(data, function (result, key) {
@@ -138,4 +135,4 @@ app.service('myHttp', function ($q, $http, apiUrl, $state, alertify, myCookie) {
   }
 
   return http;
-});
+}]);

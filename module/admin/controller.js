@@ -1,7 +1,7 @@
 /**
  * Created by Administrator on 2016/8/30.
  */
-app.controller("adminController", function($scope, alertify, myHttp, myCookie, $state){
+app.controller("adminController", ["$scope", "alertify", "myHttp", "myCookie", "$state", function($scope, alertify, myHttp, myCookie, $state){
   var role = {
     menuInfo: [
       {
@@ -30,4 +30,4 @@ app.controller("adminController", function($scope, alertify, myHttp, myCookie, $
     $state.go('login');
     alertify.success("登出成功")
   }
-});
+}]);

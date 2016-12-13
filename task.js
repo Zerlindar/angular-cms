@@ -11,6 +11,3 @@ for(var i = 0; i < 1; i ++) {
     cc = 13;
   console.log(add(jj, cc))
 }
-
-console.log(jj)
-

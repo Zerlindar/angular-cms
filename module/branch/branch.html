@@ -1,2 +1,13 @@
-<hello  temp-title = "title" temp-ls = "选择"
-        ng-judge = "temp" my-click = "say(temp)"></hello>
+<div class="row margin-bottom-lg margin-left-lg">
+    <tab-title  temp-title = "title" temp-ls = "选择" ng-judge = "temp" ng-model = "data" my-click = "say()"></tab-title>
+</div>
+<div class="row margin-bottom-lg margin-left-lg">
+    <div ng-bind-html= "bdhtml|trustHtml"></div>
+</div>
+<div class="row margin-bottom-lg margin-left-lg">
+    <select-vox label-title = "选择分组" origin-label = "全部标签" label-content = "labelList" list-data = "listData" my-click = "search()"></select-vox>
+</div>
+
+<div class="row">
+        <my-pagination ng-model ="page" page-num="size" page-count="count"></my-pagination>
+</div>

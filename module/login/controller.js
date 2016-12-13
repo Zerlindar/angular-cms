@@ -1,7 +1,7 @@
 /**
- * Created by Administrator on 2016/8/30.
+ * Created by Administrator on 2016/12/13.
  */
-app.controller("loginController", function($scope, alertify, myHttp, myCookie, $state){
+app.controller("loginController", ["$scope", "alertify", "myHttp", "myCookie", "$state", function($scope, alertify, myHttp, myCookie, $state){
   $scope.data = {};
   $scope.login = function(){
     //$scope.data.source = "MANAGE_WEB"
@@ -29,4 +29,4 @@ app.controller("loginController", function($scope, alertify, myHttp, myCookie, $
 
   };
 
-});
+}]);

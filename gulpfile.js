@@ -14,10 +14,13 @@ var gulp = require('gulp'),
     //livereload = require('gulp-livereload'),
     open = require('gulp-open'),
     stripDebug = require('gulp-strip-debug');
+var postcss      = require('gulp-postcss');
+var autoprefixer = require('autoprefixer');
 const config={
   JS_WATCH:['./assets/js/*.js','./module/*/*.js'],
   SASS_WATCH:['./assets/sass/*.scss','./module/*/*.scss'],
   LESS_WATCH:['./assets/less/*.less','./module/*/*.less', './assets/less/*.css'],
+  Before_LESS_WATCH: ["assets/less/before.less"],
   JS_PATH:[
     'bower_components/moment/moment.js',
     'bower_components/moment/locale/zh-cn.js',
@@ -134,9 +137,22 @@ gulp.task('angular-min',function(){
 //less编译，压缩版
 gulp.task('less-min',function(){
   gulp.src(config.LESS_WATCH)
+    .pipe(sourcemaps.init())
     .pipe(less())
     .pipe(gulp.dest('./src/css'))
     .pipe(minifycss())
     .pipe(concat('myCms.min.css'))
+    .pipe(sourcemaps.write())
     .pipe(gulp.dest('./dist'))
+})
+
+
+gulp.task("l", function(){
+  gulp.src(config.Before_LESS_WATCH)
+    .pipe(sourcemaps.init())
+    .pipe(less())
+    .pipe(concat("mb.css"))
+    .pipe(postcss([ autoprefixer({ browsers: ['last 2 versions'] }) ]))
+    .pipe(sourcemaps.write())
+    .pipe(gulp.dest('./src/css'))
 })
