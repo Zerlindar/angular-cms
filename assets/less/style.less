@@ -1,6 +1,23 @@
 ﻿* {
   font-family: "微软雅黑";
 }
+@font-face {
+  font-family: 'Glyphicons Halflings';
+  src: url(fonts/glyphicons-halflings-regular.eot);
+  src: url(fonts/glyphicons-halflings-regular.eot?#iefix) format('embedded-opentype'), url(fonts/glyphicons-halflings-regular.woff) format('woff'), url(fonts/glyphicons-halflings-regular.ttf) format('truetype'), url(fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular) format('svg')
+}
+
+nav{
+  i{
+    margin-right: 4px;
+  }
+}
+nav{
+  a, a:hover, a:focus{
+    text-decoration: none;
+    color: black;
+  }
+}
 @nav-height: 55px;
 .clearfix{
   content: "";
@@ -28,6 +45,9 @@ ul, li, ol {
   margin: 0;
   list-style: none;
 }
+@media (min-width: 768px){
+
+}
 .content-body {
   position: relative;
   width: 100%;
@@ -37,6 +57,7 @@ ul, li, ol {
     position: absolute;
     top: 0;
     left: 0;
+    z-index: 100;
     height: @nav-height;
     width: 100%;
     box-sizing: border-box;
@@ -75,16 +96,17 @@ ul, li, ol {
     padding-bottom: 60px;
     box-sizing: border-box;
     .left-module {
-      vertical-align: top;
-      display: inline-block;
-      width: 22%;
       height: 100%;
       overflow: auto;
       box-sizing: border-box;
-      padding: @nav-height 0 20px 20px;
-      border-right: 1px solid #000;
+      padding-top: @nav-height+ 4px;
       .menu-box{
+        height: 100%;
+        border: 1px solid #ccc;
+        box-shadow: 3px 3px 2px #888888;
+        margin-right: 10px;
         nav{
+
           a{
             height: 30px;
             line-height: 30px;
@@ -96,7 +118,9 @@ ul, li, ol {
             }
           }
           .menu-first{
-            padding-top: 4px;
+            height: 40px;
+            line-height: 40px;
+            border-bottom: 1px solid #ccc;
           }
           .menu-second {
             border-bottom: 1px solid #EBDFDF;
@@ -108,13 +132,19 @@ ul, li, ol {
       }
     }
     .right-module{
-      display: inline-block;
-      width: 78%;
       height: 100%;
       overflow: auto;
       vertical-align: top;
       box-sizing: border-box;
-      padding: @nav-height+20px 20px 20px 20px;
+      padding-top: @nav-height + 4px;
+      .view-body{
+        height: 100%;
+        border: 1px solid #ccc;
+        box-shadow: 3px 3px 2px #888888;
+        margin-right: 10px;
+        overflow: auto;
+        overflow-x: hidden;
+      }
       &.login {
         width: 70%;
       }

@@ -10,7 +10,7 @@ app.controller("loginController", ["$scope", "alertify", "myHttp", "myCookie", "
       alertify.alert("输入用户名");
     }else{
       localStorage.setItem('name', $scope.data.userName);
-      $state.go("admin.branch");
+      $state.go("admin.tab");
       alertify.success("登录成功");
     }
 

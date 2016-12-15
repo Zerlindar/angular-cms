@@ -5,16 +5,31 @@ app.controller("adminController", ["$scope", "alertify", "myHttp", "myCookie", "
   var role = {
     menuInfo: [
       {
-        moduleName: "门店管理",
+        moduleName: "指令名称",
+        icon: "glyphicon-home",
         menu: [
           {
-            menuName: "门店信息",
-            route: "admin.branch"
+            menuName: "tab状态切换",
+            route: "admin.tab",
+            icon: "glyphicon-plus"
           },
           {
-            menuName: "区域管理",
-            route: "admin.launch"
-          }
+            menuName: "table指令",
+            route: "admin.table",
+            icon: "glyphicon-cloud"
+          },
+          {
+            menuName: "下拉选中",
+            route: "admin.select",
+            icon: "glyphicon-star"
+
+          },
+          {
+            menuName: "分页",
+            route: "admin.pagination",
+            icon: "glyphicon-time"
+          },
+
         ]
       }
     ]

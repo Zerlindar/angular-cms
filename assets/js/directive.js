@@ -1,7 +1,7 @@
 /**
  * Created by Administrator on 2016/9/26.
  */
-app.directive("tabTitle", function(){
+app.directive("tabTitle", function($parse){
   return {
     restrict: "EA",
     replace: true,
@@ -21,6 +21,12 @@ app.directive("tabTitle", function(){
         scope.myClick();
       }
 
+
+      //elem.bind('click',function(){
+      //  //'model.assign'也是一个函数，它用来更新表达式的值
+      //  model.assign(scope,'New name');
+      //  scope.$apply();
+      //})
     },
     template: "<div id = 'tab-component'>{{tempLs}}" +
     "<span ng-class='{active: temp == $index}' ng-repeat='val in tempTitle track by $index' " +

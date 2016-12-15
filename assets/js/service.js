@@ -1,4 +1,5 @@
-app.service('clone', function () {
+var service = angular.module('ui.service',[]);
+service.service('clone', function () {
   this.cloneObj = function (obj) {
     var o;
     if (obj.constructor == Object) {
@@ -20,7 +21,7 @@ app.service('clone', function () {
     return o;
   }
 });
-app.service("myCookie", function () {
+service.service("myCookie", function () {
   this.getCookie = function (name) {
     var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
     if (arr = document.cookie.match(reg)) {
@@ -61,7 +62,7 @@ app.service("myCookie", function () {
       }
     }
 });
-app.service('myHttp', ["$q", "$http", "apiUrl", "$state", "alertify", "myCookie", function ($q, $http, apiUrl, $state, alertify, myCookie) {
+service.service('myHttp', ["$q", "$http", "apiUrl", "$state", "alertify", "myCookie", function ($q, $http, apiUrl, $state, alertify, myCookie) {
   function objInit(data) {
     var obj = {};
     angular.forEach(data, function (result, key) {
@@ -136,3 +137,13 @@ app.service('myHttp', ["$q", "$http", "apiUrl", "$state", "alertify", "myCookie"
 
   return http;
 }]);
+service.service("commonFuns", function(){
+  this.getUrlKey = function(){
+    console.log("click");
+  }
+  this.getUrlHash = function(){
+    var str = window.location.hash;
+    console.log(str);
+    return str;
+  }
+})

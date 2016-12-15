@@ -1,6 +1,6 @@
-var app = angular.module('myApp', ['ui.router', 'ngAlertify', "ui.select"]);
+var app = angular.module('myApp', ['ui.router', 'ngAlertify', "ui.select", "ui.service"]);
 app.constant('apiUrl','http://test.xpcc.com.cn:8002/');
-app.constant('socketUrl','http://test.xpcc.com.cn:4500/')
+app.constant('socketUrl','http://test.xpcc.com.cn:4500/');
 app.run(["alertify", function(alertify){
   alertify.maxLogItems(1).delay(3000).okBtn('确认').cancelBtn('取消');
 }]);
@@ -30,15 +30,25 @@ app.config(["$stateProvider", "$urlRouterProvider", function ($stateProvider, $u
       templateUrl: './module/admin/admin.html',
       controller: 'adminController',
     })
-    .state('admin.branch', {
-      url: '/branch',
-      templateUrl: './module/branch/branch.html',
+    .state('admin.tab', {
+      url: '/tab',
+      templateUrl: './module/branch/tab.html',
       controller: 'branchController',
     })
-    .state('admin.launch', {
-      url: '/launch',
-      templateUrl: './module/branch/launch.html',
+    .state('admin.table', {
+      url: '/table',
+      templateUrl: './module/branch/table.html',
       controller: 'launchController',
+    })
+    .state('admin.select', {
+      url: '/select',
+      templateUrl: './module/branch/select.html',
+      controller: 'selectController',
+    })
+    .state('admin.pagination', {
+      url: '/pagination',
+      templateUrl: './module/branch/pagination.html',
+      controller: 'paginationController',
     })
 
 }])

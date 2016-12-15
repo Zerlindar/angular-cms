@@ -13,14 +13,16 @@ var gulp = require('gulp'),
     sourcemaps = require('gulp-sourcemaps'),
     //livereload = require('gulp-livereload'),
     open = require('gulp-open'),
-    stripDebug = require('gulp-strip-debug');
-var postcss      = require('gulp-postcss');
-var autoprefixer = require('autoprefixer');
+    stripDebug = require('gulp-strip-debug'),
+    clean = require('gulp-clean'),
+    postcss      = require('gulp-postcss'),
+    autoprefixer = require('autoprefixer');
 const config={
   JS_WATCH:['./assets/js/*.js','./module/*/*.js'],
   SASS_WATCH:['./assets/sass/*.scss','./module/*/*.scss'],
   LESS_WATCH:['./assets/less/*.less','./module/*/*.less', './assets/less/*.css'],
-  Before_LESS_WATCH: ["assets/less/before.less"],
+  JS_CLEAN: ["dist/*.js"],
+  CSS_CLEAN: ["dist/*.css"],
   JS_PATH:[
     'bower_components/moment/moment.js',
     'bower_components/moment/locale/zh-cn.js',
@@ -28,7 +30,6 @@ const config={
     'bower_components/angular-ui-router/release/angular-ui-router.js',
     'bower_components/alertifyjs/dist/js/ngAlertify.js'
   ],
-  ES6: ['task.js'],
   CSS_PATH:[
     'bower_components/alertifyjs/dist/css/alertify.css',
   ]
@@ -52,11 +53,11 @@ gulp.task('min',function(){
     .pipe(uglify({outSourceMap:false}))
     .pipe(stripDebug())  //console
     .pipe(uglify({outSourceMap:false}))
-    .pipe(concat('production.min.js'))
+    .pipe(concat('plugin.min.js'))
     .pipe(gulp.dest('./dist'));
   gulp.src(config.CSS_PATH)
     .pipe(sourcemaps.init())
-    .pipe(concat('production.min.css'))
+    .pipe(concat('plugin.min.css'))
     .pipe(minifycss())
     .pipe(sourcemaps.write())
     .pipe(gulp.dest('./dist'))
@@ -72,14 +73,65 @@ gulp.task('watch-angular',function(){
   console.log("编译js中...")
     gulp.watch(config.JS_WATCH,['angular'])
 })
+
+//监视less
+gulp.task('watch-less',function(){
+  gulp.watch(config.LESS_WATCH,['less']);
+})
+
+//less编译，普通版（未压缩）
+gulp.task('less',function(){
+  gulp.src(config.LESS_WATCH)
+    .pipe(sourcemaps.init())
+    .pipe(less())
+    .pipe(gulp.dest('./src/css'))
+    .pipe(concat('production.css'))
+    .pipe(sourcemaps.write())
+    .pipe(gulp.dest('./dist'))
+})
+//less编译，压缩版
+gulp.task('less-min',function(){
+  gulp.src(config.LESS_WATCH)
+    .pipe(sourcemaps.init())
+    .pipe(less())
+    .pipe(gulp.dest('./src/css'))
+    .pipe(minifycss())
+    .pipe(concat('production.min.css'))
+    .pipe(sourcemaps.write())
+    .pipe(gulp.dest('./dist'))
+})
+//angular 编译-合并
+gulp.task('angular',function(){
+    gulp.src(config.JS_WATCH)
+        .pipe(ngAnnotate())
+        .pipe(concat('production.js'))
+        .pipe(gulp.dest('./dist'))
+})
+//angular 编译合并压缩
+gulp.task('angular-min',function(){
+    gulp.src(config.JS_WATCH)
+        .pipe(ngAnnotate())
+        .pipe(ngMin({dynamic:false}))
+        .pipe(stripDebug())  //console
+        .pipe(uglify({outSourceMap:false}))
+        .pipe(concat('production.min.js'))
+        .pipe(gulp.dest('./dist'))
+  console.log("编译js结束.")
+
+})
+gulp.task("clean-js", function(){
+  gulp.src(config.JS_CLEAN)
+    .pipe(clean());
+})
+gulp.task("clean-css", function(){
+  gulp.src(config.CSS_CLEAN)
+    .pipe(clean());
+})
+
 ////监视sass
 //gulp.task('watch-sass',function(){
 //    gulp.watch(config.SASS_WATCH,['sass']);
 //})
-//监视less
-gulp.task('watch-less',function(){
-  gulp.watch(config.LESS_WATCH,['less-min']);
-})
 ////sass编译，普通版（未压缩）
 //gulp.task('sass',function(){
 //    gulp.src(config.SASS_WATCH)
@@ -90,41 +142,6 @@ gulp.task('watch-less',function(){
 //        .pipe(sourcemaps.write())
 //        .pipe(gulp.dest('./dist'))
 //})
-//less编译，普通版（未压缩）
-gulp.task('less',function(){
-  gulp.src(config.LESS_WATCH)
-    .pipe(sourcemaps.init())
-    .pipe(less())
-    .pipe(gulp.dest('./src/css'))
-    .pipe(concat('myCms.css'))
-    .pipe(sourcemaps.write())
-    .pipe(gulp.dest('./dist'))
-})
-gulp.task("es6", function(){
-  return gulp.src(config.ES6)
-    .pipe(babel())
-    .pipe(concat('es6.js'))
-    .pipe(gulp.dest("./dist"));
-})
-//angular 编译-合并
-gulp.task('angular',function(){
-    gulp.src(config.JS_WATCH)
-        .pipe(ngAnnotate())
-        .pipe(concat('controller.js'))
-        .pipe(gulp.dest('./dist'))
-})
-//angular 编译合并压缩
-gulp.task('angular-min',function(){
-    gulp.src(config.JS_WATCH)
-        .pipe(ngAnnotate())
-        .pipe(ngMin({dynamic:false}))
-        .pipe(stripDebug())  //console
-        .pipe(uglify({outSourceMap:false}))
-        .pipe(concat('controller.min.js'))
-        .pipe(gulp.dest('./dist'))
-  console.log("编译js结束.")
-
-})
 ////sass编译，压缩版
 //gulp.task('sass-min',function(){
 //  gulp.src(config.SASS_WATCH)
@@ -134,25 +151,3 @@ gulp.task('angular-min',function(){
 //    .pipe(gulp.dest('./dist'))
 //    .pipe(minifycss())
 //})
-//less编译，压缩版
-gulp.task('less-min',function(){
-  gulp.src(config.LESS_WATCH)
-    .pipe(sourcemaps.init())
-    .pipe(less())
-    .pipe(gulp.dest('./src/css'))
-    .pipe(minifycss())
-    .pipe(concat('myCms.min.css'))
-    .pipe(sourcemaps.write())
-    .pipe(gulp.dest('./dist'))
-})
-
-
-gulp.task("l", function(){
-  gulp.src(config.Before_LESS_WATCH)
-    .pipe(sourcemaps.init())
-    .pipe(less())
-    .pipe(concat("mb.css"))
-    .pipe(postcss([ autoprefixer({ browsers: ['last 2 versions'] }) ]))
-    .pipe(sourcemaps.write())
-    .pipe(gulp.dest('./src/css'))
-})

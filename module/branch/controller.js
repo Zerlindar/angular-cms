@@ -1,17 +1,27 @@
 /**
  * Created by Administrator on 2016/12/13.
  */
-app.controller("branchController", ["$scope", "alertify", "myHttp", function($scope, alertify, myHttp){
+app.controller("branchController", function ($scope, commonFuns, $parse,clone, alertify, myHttp) {
   $scope.title = ["全部", "大胖", "二胖", "三胖", "四胖"];
   $scope.data = "";
   $scope.bdhtml = "<div>bdhtml|trustHtml绑定html</div>";
-  $scope.labelList = [],
-    $scope.listData = [];
-  $scope.page = 1;
-  $scope.count = 200;
-  $scope.size = 9;
-  $scope.search = function(){
-    console.log("click");
+
+  //fenye
+
+
+  $scope.say = function () {
+    console.log($scope.data);
+  }
+
+});
+app.controller("launchController", function ($scope, alertify, myHttp, launchApi) {
+  $scope.listTitle = launchApi.$listTitle;
+  $scope.listData = launchApi.$listData;
+});
+app.controller("selectController", function($scope){
+  $scope.labelList = [];
+  $scope.listData = [];
+  $scope.search = function () {
     $scope.listData = [
       {
         'id': '1', // 操作id
@@ -33,12 +43,12 @@ app.controller("branchController", ["$scope", "alertify", "myHttp", function($sc
       }
     ]
   }
-  $scope.say = function(){
-    console.log($scope.data);
+})
+app.controller("paginationController", function ($scope) {
+  $scope.page = 1;
+  $scope.count = 200;
+  $scope.size = 9;
+  $scope.update = function(){
+    console.log("page: ", $scope.page);
   }
-
-}]);
-app.controller("launchController", ["$scope", "alertify", "myHttp", function($scope, alertify, myHttp){
-  $scope.listData = "launchController";
-
-}]);
+});

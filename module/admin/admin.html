@@ -7,16 +7,16 @@
   </div>
 </nav>
 <div class = "main-content">
-  <section class="left-module">
+  <section class="left-module col-sm-3">
     <div class="menu-box">
       <nav class="sidebar-menu">
         <a class="menu-first" ng-repeat-start="(key,value) in menuData track by $index">
-          <span><i class="glyphicon {{value.moduleIcon}}"></i>{{value.moduleName}}</span>
+          <span><i class="glyphicon {{value.icon}}"></i>{{value.moduleName}}</span>
         </a>
         <ul class=" menu-second " ng-repeat-end ng-if="value.menu.length>0">
           <li ng-repeat="men in value.menu track by $index">
             <a ui-sref-active="active" ui-sref="{{men.route}}" ng-click="postJudge($event)">
-              <span><i class="glyphicon  {{men.menuIcon}}"></i>{{men.menuName}}</span>
+              <span><i class="glyphicon  {{men.icon}}"></i>{{men.menuName}}</span>
             </a>
           </li>
         </ul>
@@ -24,7 +24,7 @@
     </div>
     <!--<menu menu-data="menuData"></menu>-->
   </section><!--
---><section class="right-module">
+--><section class="right-module col-sm-9">
   <div ui-view class="pd-sm view-body"></div>
 </section>
 </div>
