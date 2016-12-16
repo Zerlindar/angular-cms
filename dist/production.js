@@ -38,7 +38,7 @@ app.config(["$stateProvider", "$urlRouterProvider", function ($stateProvider, $u
     .state('admin.table', {
       url: '/table',
       templateUrl: './module/branch/table.html',
-      controller: 'launchController',
+      controller: 'tableController',
     })
     .state('admin.select', {
       url: '/select',
@@ -53,6 +53,12 @@ app.config(["$stateProvider", "$urlRouterProvider", function ($stateProvider, $u
 
 }])
 
+/**
+ * Created by Administrator on 2016/12/16.
+ */
+app.constant("constant", {
+  tabTitle: ["全部", "大胖", "二胖", "三胖", "四胖"]
+})
 /**
  * Created by Administrator on 2016/9/26.
  */
@@ -75,13 +81,6 @@ app.directive("tabTitle", ["$parse", function($parse){
         }
         scope.myClick();
       }
-
-
-      //elem.bind('click',function(){
-      //  //'model.assign'也是一个函数，它用来更新表达式的值
-      //  model.assign(scope,'New name');
-      //  scope.$apply();
-      //})
     },
     template: "<div id = 'tab-component'>{{tempLs}}" +
     "<span ng-class='{active: temp == $index}' ng-repeat='val in tempTitle track by $index' " +
@@ -309,8 +308,15 @@ tab.directive("myTable", function () {
     scope: {
       tableTitle: "=",
       tableData: "=",
+      myClick: "&"
     },
     link: function (scope, element, attrs, ctr) {
+      scope.getClick = function(value, index){
+        if (attrs.myClick) {
+          console.log(value, index);
+          scope.myClick.call(null, value,index);
+        }
+      }
     },
     template: '<div class="table table-responsive text-center">' +
     '<table id="fans-table" class="table  table-bordered table-hover"> ' +
@@ -323,10 +329,10 @@ tab.directive("myTable", function () {
     '</tr> ' +
     '</thead> ' +
     '<tbody> ' +
-    '<tr ng-repeat = "data in tableData track by $index"> ' +
-    '<td ng-repeat = "val in tableTitle track by $index"> ' +
+    '<tr ng-repeat = "(key, data) in tableData track by $index"> ' +
+    '<td ng-repeat = "(d,val) in tableTitle track by $index" ng-click = "getClick(data, key)"> ' +
     '<div ng-if = "val.name === \'checkbox\'" ><label class="pos-rel"> <input type="checkbox"/> <span class="lbl"></span> </label></div> ' +
-    '<div >{{val.field|tableParse: data}}</div>' +
+    '<div ng-if = "val.name !== \'checkbox\'">{{val.field|tableParse: data}}</div>' +
     '</td>' +
     '</tr> ' +
     '</tbody> ' +
@@ -537,47 +543,26 @@ app.controller("adminController", ["$scope", "alertify", "myHttp", "myCookie", "
 /**
  * Created by Administrator on 2016/12/13.
  */
-app.controller("branchController", ["$scope", "commonFuns", "$parse", "clone", "alertify", "myHttp", function ($scope, commonFuns, $parse,clone, alertify, myHttp) {
-  $scope.title = ["全部", "大胖", "二胖", "三胖", "四胖"];
+app.controller("branchController", ["$scope", "constant", "$parse", "clone", "alertify", "myHttp", function ($scope, constant, $parse,clone, alertify, myHttp) {
+  $scope.title = constant.tabTitle;
   $scope.data = "";
   $scope.bdhtml = "<div>bdhtml|trustHtml绑定html</div>";
-
-  //fenye
-
-
-  $scope.say = function () {
-    console.log($scope.data);
+  $scope.getData = function () {
+    console.log("data", $scope.data);
   }
-
 }]);
-app.controller("launchController", ["$scope", "alertify", "myHttp", "launchApi", function ($scope, alertify, myHttp, launchApi) {
+app.controller("tableController", ["$scope", "alertify", "myHttp", "launchApi", function ($scope, alertify, myHttp, launchApi) {
   $scope.listTitle = launchApi.$listTitle;
   $scope.listData = launchApi.$listData;
+  $scope.operation = function(value, index){
+    console.log("index: ", value, index);
+  }
 }]);
-app.controller("selectController", ["$scope", function($scope){
+app.controller("selectController", ["$scope", "selectApi", function($scope, selectApi){
   $scope.labelList = [];
   $scope.listData = [];
   $scope.search = function () {
-    $scope.listData = [
-      {
-        'id': '1', // 操作id
-        'tag_id': '1', // 0和非0，0为本地标签，非0为已同步至微信侧
-        'name': '星标组', // 标签名称
-        'count': '0', // 成员数量
-      },
-      {
-        'id': '1', // 操作id
-        'tag_id': '2', // 0和非0，0为本地标签，非0为已同步至微信侧
-        'name': '90hou ', // 标签名称
-        'count': '52', // 成员数量
-      },
-      {
-        'id': '1', // 操作id
-        'tag_id': '3', // 0和非0，0为本地标签，非0为已同步至微信侧
-        'name': '小区111', // 标签名称
-        'count': '10', // 成员数量
-      }
-    ]
+    $scope.listData = selectApi.$listData;
   }
 }])
 app.controller("paginationController", ["$scope", function ($scope) {
@@ -591,6 +576,30 @@ app.controller("paginationController", ["$scope", function ($scope) {
 /**
  * Created by Administrator on 2016/12/15.
  */
+app.factory("selectApi", function(){
+  var obj = {};
+  obj.$listData = [
+    {
+      'id': '1', // 操作id
+      'tag_id': '1', // 0和非0，0为本地标签，非0为已同步至微信侧
+      'name': '星标组', // 标签名称
+      'count': '0', // 成员数量
+    },
+    {
+      'id': '1', // 操作id
+      'tag_id': '2', // 0和非0，0为本地标签，非0为已同步至微信侧
+      'name': '90hou ', // 标签名称
+      'count': '52', // 成员数量
+    },
+    {
+      'id': '1', // 操作id
+      'tag_id': '3', // 0和非0，0为本地标签，非0为已同步至微信侧
+      'name': '小区111', // 标签名称
+      'count': '10', // 成员数量
+    }
+  ]
+  return obj;
+})
 app.factory("launchApi", function () {
   var obj = {};
   obj.$listTitle = [
@@ -598,7 +607,8 @@ app.factory("launchApi", function () {
     {name: "昵称", field: "nickname"},
     {name: "性别", field: "sex"},
     {name: "提交时间", field: "subscribe_time"},
-    {name: "语言", field: "language"}
+    {name: "语言", field: "language"},
+    {name: "国家", field: "country"}
   ];
   obj.$listData = [{
     "id": "1",

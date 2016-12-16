@@ -209,8 +209,15 @@ tab.directive("myTable", function () {
     scope: {
       tableTitle: "=",
       tableData: "=",
+      myClick: "&"
     },
     link: function (scope, element, attrs, ctr) {
+      scope.getClick = function(value, index){
+        if (attrs.myClick) {
+          console.log(value, index);
+          scope.myClick.call(null, value,index);
+        }
+      }
     },
     template: '<div class="table table-responsive text-center">' +
     '<table id="fans-table" class="table  table-bordered table-hover"> ' +
@@ -223,10 +230,10 @@ tab.directive("myTable", function () {
     '</tr> ' +
     '</thead> ' +
     '<tbody> ' +
-    '<tr ng-repeat = "data in tableData track by $index"> ' +
-    '<td ng-repeat = "val in tableTitle track by $index"> ' +
+    '<tr ng-repeat = "(key, data) in tableData track by $index"> ' +
+    '<td ng-repeat = "(d,val) in tableTitle track by $index" ng-click = "getClick(data, key)"> ' +
     '<div ng-if = "val.name === \'checkbox\'" ><label class="pos-rel"> <input type="checkbox"/> <span class="lbl"></span> </label></div> ' +
-    '<div >{{val.field|tableParse: data}}</div>' +
+    '<div ng-if = "val.name !== \'checkbox\'">{{val.field|tableParse: data}}</div>' +
     '</td>' +
     '</tr> ' +
     '</tbody> ' +

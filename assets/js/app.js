@@ -38,7 +38,7 @@ app.config(["$stateProvider", "$urlRouterProvider", function ($stateProvider, $u
     .state('admin.table', {
       url: '/table',
       templateUrl: './module/branch/table.html',
-      controller: 'launchController',
+      controller: 'tableController',
     })
     .state('admin.select', {
       url: '/select',
