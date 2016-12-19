@@ -29,7 +29,6 @@ app.controller("adminController", ["$scope", "alertify", "myHttp", "myCookie", "
             route: "admin.pagination",
             icon: "glyphicon-time"
           },
-
         ]
       }
     ]

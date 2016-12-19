@@ -50,5 +50,4 @@ app.config(["$stateProvider", "$urlRouterProvider", function ($stateProvider, $u
       templateUrl: './module/branch/pagination.html',
       controller: 'paginationController',
     })
-
 }])

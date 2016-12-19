@@ -50,7 +50,6 @@ app.config(["$stateProvider", "$urlRouterProvider", function ($stateProvider, $u
       templateUrl: './module/branch/pagination.html',
       controller: 'paginationController',
     })
-
 }])
 
 /**
@@ -313,13 +312,12 @@ tab.directive("myTable", function () {
     link: function (scope, element, attrs, ctr) {
       scope.getClick = function(value, index){
         if (attrs.myClick) {
-          console.log(value, index);
-          scope.myClick.call(null, value,index);
+          scope.myClick()(value, index);
         }
       }
     },
     template: '<div class="table table-responsive text-center">' +
-    '<table id="fans-table" class="table  table-bordered table-hover"> ' +
+    '<table id="fans-table" class="table table-bordered table-hover"> ' +
     '<thead> ' +
     '<tr> ' +
     '<th ng-repeat = "val in tableTitle track by $index" class="text-center"> ' +
@@ -330,9 +328,9 @@ tab.directive("myTable", function () {
     '</thead> ' +
     '<tbody> ' +
     '<tr ng-repeat = "(key, data) in tableData track by $index"> ' +
-    '<td ng-repeat = "(d,val) in tableTitle track by $index" ng-click = "getClick(data, key)"> ' +
+    '<td ng-repeat = "(d,val) in tableTitle track by $index"> ' +
     '<div ng-if = "val.name === \'checkbox\'" ><label class="pos-rel"> <input type="checkbox"/> <span class="lbl"></span> </label></div> ' +
-    '<div ng-if = "val.name !== \'checkbox\'">{{val.field|tableParse: data}}</div>' +
+    '<div ng-if = "val.name !== \'checkbox\'" ng-click = "getClick(data, key)">{{val.field|tableParse: data}}</div>' +
     '</td>' +
     '</tr> ' +
     '</tbody> ' +
@@ -343,6 +341,7 @@ tab.directive("myTable", function () {
     return $parse(field)(value)
   }
 }])
+
 var service = angular.module('ui.service',[]);
 service.service('clone', function () {
   this.cloneObj = function (obj) {
@@ -523,7 +522,6 @@ app.controller("adminController", ["$scope", "alertify", "myHttp", "myCookie", "
             route: "admin.pagination",
             icon: "glyphicon-time"
           },
-
         ]
       }
     ]
@@ -554,8 +552,8 @@ app.controller("branchController", ["$scope", "constant", "$parse", "clone", "al
 app.controller("tableController", ["$scope", "alertify", "myHttp", "launchApi", function ($scope, alertify, myHttp, launchApi) {
   $scope.listTitle = launchApi.$listTitle;
   $scope.listData = launchApi.$listData;
-  $scope.operation = function(value, index){
-    console.log("index: ", value, index);
+  $scope.operation = function (data, index) {
+    console.log(data, index);
   }
 }]);
 app.controller("selectController", ["$scope", "selectApi", function($scope, selectApi){
@@ -573,6 +571,7 @@ app.controller("paginationController", ["$scope", function ($scope) {
     console.log("page: ", $scope.page);
   }
 }]);
+
 /**
  * Created by Administrator on 2016/12/15.
  */

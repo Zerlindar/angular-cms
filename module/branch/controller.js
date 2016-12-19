@@ -12,8 +12,8 @@ app.controller("branchController", function ($scope, constant, $parse,clone, ale
 app.controller("tableController", function ($scope, alertify, myHttp, launchApi) {
   $scope.listTitle = launchApi.$listTitle;
   $scope.listData = launchApi.$listData;
-  $scope.operation = function(value, index){
-    console.log("index: ", value, index);
+  $scope.operation = function (data, index) {
+    console.log(data, index);
   }
 });
 app.controller("selectController", function($scope, selectApi){
