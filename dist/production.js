@@ -1,4 +1,4 @@
-var app = angular.module('myApp', ['ui.router', 'ngAlertify', "ui.select", "ui.service"]);
+var app = angular.module('myApp', ['ui.router', 'ngAlertify', "ui.select", "ui.service", "ui.commonFuns"]);
 app.constant('apiUrl','http://test.xpcc.com.cn:8002/');
 app.constant('socketUrl','http://test.xpcc.com.cn:4500/');
 app.run(["alertify", function(alertify){
@@ -52,6 +52,50 @@ app.config(["$stateProvider", "$urlRouterProvider", function ($stateProvider, $u
     })
 }])
 
+/**
+ * Created by Administrator on 2016/12/19.
+ */
+var funs = angular.module('ui.commonFuns', []);
+funs.service("commonFuns", function(){
+  this.getCheckedArray = function(origon, data){
+    var arr = []
+    angular.forEach(origon, function(v, i){
+      if(origon[i]){
+        arr.push(data[i]);
+      }
+    })
+    return arr;
+  }
+  this.getTrueArrayLength = function(data, l){
+    var length = 0;
+    for(var i = 0; i < l; i ++){
+      if(data[i]){
+        length ++;
+      }
+    }
+    return length;
+  }
+  this.setCheckedArray = function(array, length, judge){
+    switch(judge){
+      case "true":
+        for(var i = 0; i < length; i ++){
+          array[i] = true;
+        }
+        break;
+      case "false":
+        for(var i = 0; i < length; i ++){
+          array[i] = false;
+        }
+        break;
+      case "!":
+        for(var i = 0; i < length; i ++){
+          array[i] = !array[i];
+        }
+        break;
+    }
+
+  }
+})
 /**
  * Created by Administrator on 2016/12/16.
  */
@@ -300,28 +344,54 @@ tab.directive("myPagination", ["alertify", function (alertify) {
     '</div>'
   }
 }])
-tab.directive("myTable", function () {
+tab.directive("myTable", ["commonFuns", function (commonFuns) {
   return {
     restrict: "EA",
     replace: true,
     scope: {
       tableTitle: "=",
       tableData: "=",
+      checkModel: "=",
       myClick: "&"
     },
-    link: function (scope, element, attrs, ctr) {
-      scope.getClick = function(value, index){
+    link: function (scope, element, attrs) {
+      var length = scope.tableData.length;
+      scope.checkArray = [];
+      scope.isAll;
+      scope.getClick = function (value, index) {
         if (attrs.myClick) {
           scope.myClick()(value, index);
         }
       }
+      scope.getAll = function (data) {
+        scope.isAll = !scope.isAll;
+        scope.checkModel = [];
+        var num = commonFuns.getTrueArrayLength(scope.checkArray, length);
+        if (num == length || num == 0) {
+          commonFuns.setCheckedArray(scope.checkArray, length, "!")
+        } else {
+          commonFuns.setCheckedArray(scope.checkArray, length, "true")
+        }
+        scope.checkModel = commonFuns.getCheckedArray(scope.checkArray, data)
+      }
+      scope.getCheck = function (value, data) {
+        scope.checkArray[value] = !scope.checkArray[value];
+        scope.checkModel = [];
+        var num = commonFuns.getTrueArrayLength(scope.checkArray, length);
+        if (num != length) {
+          scope.isAll = false;
+        } else {
+          scope.isAll = true;
+        }
+        scope.checkModel = commonFuns.getCheckedArray(scope.checkArray, data);
+      }
     },
     template: '<div class="table table-responsive text-center">' +
-    '<table id="fans-table" class="table table-bordered table-hover"> ' +
+    '<table class="table table-bordered table-hover"> ' +
     '<thead> ' +
     '<tr> ' +
     '<th ng-repeat = "val in tableTitle track by $index" class="text-center"> ' +
-    '<div ng-if = "val.name === \'checkbox\'" ><label class="pos-rel"> <input type="checkbox" class="ace" id = "checkAll"> <span class="lbl"></span> </label> </div>' +
+    '<div ng-if = "val.name === \'checkbox\'" ><label> <input ng-checked = "isAll" type="checkbox" ng-click = "getAll(tableData)"></label> </div>' +
     '<div ng-if = "val.name !== \'checkbox\'">{{val.name}}</div>' +
     '</th> ' +
     '</tr> ' +
@@ -329,14 +399,14 @@ tab.directive("myTable", function () {
     '<tbody> ' +
     '<tr ng-repeat = "(key, data) in tableData track by $index"> ' +
     '<td ng-repeat = "(d,val) in tableTitle track by $index"> ' +
-    '<div ng-if = "val.name === \'checkbox\'" ><label class="pos-rel"> <input type="checkbox"/> <span class="lbl"></span> </label></div> ' +
+    '<div ng-if = "val.name === \'checkbox\'" ><label> <input type="checkbox" ng-checked = "checkArray[key]" ng-click = "getCheck(key, tableData)"/></label></div> ' +
     '<div ng-if = "val.name !== \'checkbox\'" ng-click = "getClick(data, key)">{{val.field|tableParse: data}}</div>' +
     '</td>' +
     '</tr> ' +
     '</tbody> ' +
     '</table></div>'
   }
-}).filter('tableParse', ["$parse", function ($parse) {
+}]).filter('tableParse', ["$parse", function ($parse) {
   return function (field, value) {
     return $parse(field)(value)
   }
@@ -492,53 +562,6 @@ service.service("commonFuns", function(){
   }
 })
 /**
- * Created by Administrator on 2016/8/30.
- */
-app.controller("adminController", ["$scope", "alertify", "myHttp", "myCookie", "$state", function($scope, alertify, myHttp, myCookie, $state){
-  var role = {
-    menuInfo: [
-      {
-        moduleName: "指令名称",
-        icon: "glyphicon-home",
-        menu: [
-          {
-            menuName: "tab状态切换",
-            route: "admin.tab",
-            icon: "glyphicon-plus"
-          },
-          {
-            menuName: "table指令",
-            route: "admin.table",
-            icon: "glyphicon-cloud"
-          },
-          {
-            menuName: "下拉选中",
-            route: "admin.select",
-            icon: "glyphicon-star"
-
-          },
-          {
-            menuName: "分页",
-            route: "admin.pagination",
-            icon: "glyphicon-time"
-          },
-        ]
-      }
-    ]
-  };
-  if(role){
-    $scope.manageName=localStorage.getItem('name');
-    $scope.menuData=role.menuInfo;
-  }else{
-    $state.go('login');
-  }
-  $scope.logout = function(){
-    myCookie.clearCookie("auth_token");
-    $state.go('login');
-    alertify.success("登出成功")
-  }
-}]);
-/**
  * Created by Administrator on 2016/12/13.
  */
 app.controller("branchController", ["$scope", "constant", "$parse", "clone", "alertify", "myHttp", function ($scope, constant, $parse,clone, alertify, myHttp) {
@@ -552,8 +575,10 @@ app.controller("branchController", ["$scope", "constant", "$parse", "clone", "al
 app.controller("tableController", ["$scope", "alertify", "myHttp", "launchApi", function ($scope, alertify, myHttp, launchApi) {
   $scope.listTitle = launchApi.$listTitle;
   $scope.listData = launchApi.$listData;
+  $scope.checkModel = [];
   $scope.operation = function (data, index) {
     console.log(data, index);
+    console.log("ngModel: ", $scope.checkModel)
   }
 }]);
 app.controller("selectController", ["$scope", "selectApi", function($scope, selectApi){
@@ -872,6 +897,53 @@ app.factory("launchApi", function () {
   }];
   return obj;
 });
+/**
+ * Created by Administrator on 2016/8/30.
+ */
+app.controller("adminController", ["$scope", "alertify", "myHttp", "myCookie", "$state", function($scope, alertify, myHttp, myCookie, $state){
+  var role = {
+    menuInfo: [
+      {
+        moduleName: "指令名称",
+        icon: "glyphicon-home",
+        menu: [
+          {
+            menuName: "tab状态切换",
+            route: "admin.tab",
+            icon: "glyphicon-plus"
+          },
+          {
+            menuName: "table指令",
+            route: "admin.table",
+            icon: "glyphicon-cloud"
+          },
+          {
+            menuName: "下拉选中",
+            route: "admin.select",
+            icon: "glyphicon-star"
+
+          },
+          {
+            menuName: "分页",
+            route: "admin.pagination",
+            icon: "glyphicon-time"
+          },
+        ]
+      }
+    ]
+  };
+  if(role){
+    $scope.manageName=localStorage.getItem('name');
+    $scope.menuData=role.menuInfo;
+  }else{
+    $state.go('login');
+  }
+  $scope.logout = function(){
+    myCookie.clearCookie("auth_token");
+    $state.go('login');
+    alertify.success("登出成功")
+  }
+}]);
 /**
  * Created by Administrator on 2016/12/13.
  */

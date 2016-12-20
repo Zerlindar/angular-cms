@@ -1,4 +1,4 @@
-var app = angular.module('myApp', ['ui.router', 'ngAlertify', "ui.select", "ui.service"]);
+var app = angular.module('myApp', ['ui.router', 'ngAlertify', "ui.select", "ui.service", "ui.commonFuns"]);
 app.constant('apiUrl','http://test.xpcc.com.cn:8002/');
 app.constant('socketUrl','http://test.xpcc.com.cn:4500/');
 app.run(["alertify", function(alertify){

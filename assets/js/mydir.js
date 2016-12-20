@@ -202,28 +202,54 @@ tab.directive("myPagination", function (alertify) {
     '</div>'
   }
 })
-tab.directive("myTable", function () {
+tab.directive("myTable", function (commonFuns) {
   return {
     restrict: "EA",
     replace: true,
     scope: {
       tableTitle: "=",
       tableData: "=",
+      checkModel: "=",
       myClick: "&"
     },
-    link: function (scope, element, attrs, ctr) {
-      scope.getClick = function(value, index){
+    link: function (scope, element, attrs) {
+      var length = scope.tableData.length;
+      scope.checkArray = [];
+      scope.isAll;
+      scope.getClick = function (value, index) {
         if (attrs.myClick) {
           scope.myClick()(value, index);
         }
       }
+      scope.getAll = function (data) {
+        scope.isAll = !scope.isAll;
+        scope.checkModel = [];
+        var num = commonFuns.getTrueArrayLength(scope.checkArray, length);
+        if (num == length || num == 0) {
+          commonFuns.setCheckedArray(scope.checkArray, length, "!")
+        } else {
+          commonFuns.setCheckedArray(scope.checkArray, length, "true")
+        }
+        scope.checkModel = commonFuns.getCheckedArray(scope.checkArray, data)
+      }
+      scope.getCheck = function (value, data) {
+        scope.checkArray[value] = !scope.checkArray[value];
+        scope.checkModel = [];
+        var num = commonFuns.getTrueArrayLength(scope.checkArray, length);
+        if (num != length) {
+          scope.isAll = false;
+        } else {
+          scope.isAll = true;
+        }
+        scope.checkModel = commonFuns.getCheckedArray(scope.checkArray, data);
+      }
     },
     template: '<div class="table table-responsive text-center">' +
-    '<table id="fans-table" class="table table-bordered table-hover"> ' +
+    '<table class="table table-bordered table-hover"> ' +
     '<thead> ' +
     '<tr> ' +
     '<th ng-repeat = "val in tableTitle track by $index" class="text-center"> ' +
-    '<div ng-if = "val.name === \'checkbox\'" ><label class="pos-rel"> <input type="checkbox" class="ace" id = "checkAll"> <span class="lbl"></span> </label> </div>' +
+    '<div ng-if = "val.name === \'checkbox\'" ><label> <input ng-checked = "isAll" type="checkbox" ng-click = "getAll(tableData)"></label> </div>' +
     '<div ng-if = "val.name !== \'checkbox\'">{{val.name}}</div>' +
     '</th> ' +
     '</tr> ' +
@@ -231,7 +257,7 @@ tab.directive("myTable", function () {
     '<tbody> ' +
     '<tr ng-repeat = "(key, data) in tableData track by $index"> ' +
     '<td ng-repeat = "(d,val) in tableTitle track by $index"> ' +
-    '<div ng-if = "val.name === \'checkbox\'" ><label class="pos-rel"> <input type="checkbox"/> <span class="lbl"></span> </label></div> ' +
+    '<div ng-if = "val.name === \'checkbox\'" ><label> <input type="checkbox" ng-checked = "checkArray[key]" ng-click = "getCheck(key, tableData)"/></label></div> ' +
     '<div ng-if = "val.name !== \'checkbox\'" ng-click = "getClick(data, key)">{{val.field|tableParse: data}}</div>' +
     '</td>' +
     '</tr> ' +
