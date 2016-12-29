@@ -210,3 +210,8 @@ footer {
   line-height: 52px;
   background: #e0e0e0;
 }
+.demo {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}

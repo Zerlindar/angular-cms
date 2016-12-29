@@ -174,11 +174,11 @@ tab.service("eventUtil", function () {
         element["on" + type] = handler;
       }
     },
-    this.removeListener = function (element, type, hander) {
+    this.removeListener = function (element, type, handler) {
       if (element.removeEventListener) {
-        element.removeEventListener(type, hander, false);
-      } else if (element.deattachEvent) {
-        element.deattachEvent("on" + type,
+        element.removeEventListener(type, handler, false);
+      } else if (element.detachEvent) {
+        element.detachEvent("on" + type,
           function () {
             return handler.call(element, window.event);
           });
@@ -562,6 +562,53 @@ service.service("commonFuns", function(){
   }
 })
 /**
+ * Created by Administrator on 2016/8/30.
+ */
+app.controller("adminController", ["$scope", "alertify", "myHttp", "myCookie", "$state", function($scope, alertify, myHttp, myCookie, $state){
+  var role = {
+    menuInfo: [
+      {
+        moduleName: "指令名称",
+        icon: "glyphicon-home",
+        menu: [
+          {
+            menuName: "tab状态切换",
+            route: "admin.tab",
+            icon: "glyphicon-plus"
+          },
+          {
+            menuName: "table指令",
+            route: "admin.table",
+            icon: "glyphicon-cloud"
+          },
+          {
+            menuName: "下拉选中",
+            route: "admin.select",
+            icon: "glyphicon-star"
+
+          },
+          {
+            menuName: "分页",
+            route: "admin.pagination",
+            icon: "glyphicon-time"
+          },
+        ]
+      }
+    ]
+  };
+  if(role){
+    $scope.manageName=localStorage.getItem('name');
+    $scope.menuData=role.menuInfo;
+  }else{
+    $state.go('login');
+  }
+  $scope.logout = function(){
+    myCookie.clearCookie("auth_token");
+    $state.go('login');
+    alertify.success("登出成功")
+  }
+}]);
+/**
  * Created by Administrator on 2016/12/13.
  */
 app.controller("branchController", ["$scope", "constant", "$parse", "clone", "alertify", "myHttp", function ($scope, constant, $parse,clone, alertify, myHttp) {
@@ -897,53 +944,6 @@ app.factory("launchApi", function () {
   }];
   return obj;
 });
-/**
- * Created by Administrator on 2016/8/30.
- */
-app.controller("adminController", ["$scope", "alertify", "myHttp", "myCookie", "$state", function($scope, alertify, myHttp, myCookie, $state){
-  var role = {
-    menuInfo: [
-      {
-        moduleName: "指令名称",
-        icon: "glyphicon-home",
-        menu: [
-          {
-            menuName: "tab状态切换",
-            route: "admin.tab",
-            icon: "glyphicon-plus"
-          },
-          {
-            menuName: "table指令",
-            route: "admin.table",
-            icon: "glyphicon-cloud"
-          },
-          {
-            menuName: "下拉选中",
-            route: "admin.select",
-            icon: "glyphicon-star"
-
-          },
-          {
-            menuName: "分页",
-            route: "admin.pagination",
-            icon: "glyphicon-time"
-          },
-        ]
-      }
-    ]
-  };
-  if(role){
-    $scope.manageName=localStorage.getItem('name');
-    $scope.menuData=role.menuInfo;
-  }else{
-    $state.go('login');
-  }
-  $scope.logout = function(){
-    myCookie.clearCookie("auth_token");
-    $state.go('login');
-    alertify.success("登出成功")
-  }
-}]);
 /**
  * Created by Administrator on 2016/12/13.
  */

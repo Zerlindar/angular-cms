@@ -32,11 +32,11 @@ tab.service("eventUtil", function () {
         element["on" + type] = handler;
       }
     },
-    this.removeListener = function (element, type, hander) {
+    this.removeListener = function (element, type, handler) {
       if (element.removeEventListener) {
-        element.removeEventListener(type, hander, false);
-      } else if (element.deattachEvent) {
-        element.deattachEvent("on" + type,
+        element.removeEventListener(type, handler, false);
+      } else if (element.detachEvent) {
+        element.detachEvent("on" + type,
           function () {
             return handler.call(element, window.event);
           });

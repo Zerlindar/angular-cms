@@ -16,7 +16,7 @@ var gulp = require('gulp'),
     stripDebug = require('gulp-strip-debug'),
     clean = require('gulp-clean'),
     postcss      = require('gulp-postcss'),
-    autoprefixer = require('autoprefixer');
+  autoprefixer = require('gulp-autoprefixer');
 const config={
   JS_WATCH:['./assets/js/*.js','./module/*/*.js'],
   SASS_WATCH:['./assets/sass/*.scss','./module/*/*.scss'],
@@ -84,6 +84,9 @@ gulp.task('less',function(){
   gulp.src(config.LESS_WATCH)
     .pipe(sourcemaps.init())
     .pipe(less())
+    .pipe(autoprefixer({
+      browsers: ['last 2 versions', 'Android >= 4.0'],
+    }))
     .pipe(gulp.dest('./src/css'))
     .pipe(concat('production.css'))
     .pipe(sourcemaps.write())
