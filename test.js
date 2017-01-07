@@ -409,3 +409,20 @@ var ccccc = {
 //console.log(c.hasOwnProperty("sex"))
 var saray = ["", "", ""]
 console.log(!!saray);
+
+
+function fab(n){
+  if(n == 1 || n == 2){
+    return 1;
+  }else{
+    return arguments.callee(n -1) + arguments.callee(n - 2);
+  }
+}
+function getArray(n){
+  var arr = [];
+  for(var i = 1; i <= n; i ++){
+    arr.push(fab(i));
+  }
+  return arr;
+}
+console.log("fab", getArray(6));
