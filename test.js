@@ -426,3 +426,48 @@ function getArray(n){
   return arr;
 }
 console.log("fab", getArray(6));
+function getRTime(time, fun){          //time:标准时间    2017/1/5 1:0:0
+  var EndTime= new Date(time);    //截止时间
+  var self = this;
+  this.getDiff = function(){
+    return EndTime.getTime() - new Date();
+  }
+  this.getDay = function(){
+    return Math.floor(self.getDiff()/1000/60/60/24);
+  }
+  this.getHours = function(){
+    return Math.floor(self.getDiff()/1000/60/60%24);
+  }
+  this.getMinutes = function(){
+    return Math.floor(self.getDiff()/1000/60%60);
+  }
+  this.getSeconds = function(){
+    return Math.floor(self.getDiff()/1000%60);
+  }
+  this.getDate = function(){
+    var data = {};
+    data.day = self.getDay();
+    data.hour = self.getHours();
+    data.minute = self.getMinutes();
+    data.second = self.getSeconds();
+    return data;
+  }
+  setInterval(function(){
+    fun.call(null, self.getDate());
+  }, 1000);
+}
+id = 33;
+function foo(){
+  setTimeout(()=>{
+    console.log("iddddddd: ", this.id);
+  }, 100);
+}
+foo.call({id: 12});
+//var obj = {
+//  init: function(){
+//    document.addEventListener("click", function(){
+//      console.log("this: ", this)
+//    },false);
+//  }
+//}
+//obj.init();
